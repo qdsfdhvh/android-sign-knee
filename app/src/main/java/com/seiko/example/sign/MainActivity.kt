@@ -17,6 +17,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        Signs.initLibrary()
+        Signs.hello()
         setContent {
             AndroidsignkneeTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->

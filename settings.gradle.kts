@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "android-sign-knee"
 include(":app")
+include(":lib_sign")
