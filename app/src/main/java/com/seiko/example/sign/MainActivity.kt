@@ -1,6 +1,7 @@
 package com.seiko.example.sign
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -18,7 +19,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         Signs.initLibrary()
-        Signs.hello()
+        val sha1 = Signs.getSignatureSha1(applicationContext)
+        Log.d("MainActivity", "sha1: $sha1")
         setContent {
             AndroidsignkneeTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
