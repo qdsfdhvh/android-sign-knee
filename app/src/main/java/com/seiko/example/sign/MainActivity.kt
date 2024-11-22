@@ -12,7 +12,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.lifecycleScope
 import com.seiko.example.sign.ui.theme.AndroidsignkneeTheme
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,6 +23,10 @@ class MainActivity : ComponentActivity() {
         Signs.initLibrary()
         val sha1 = Signs.getSignatureSha1(applicationContext)
         Log.d("MainActivity", "sha1: $sha1")
+
+        val result = getTestBytes(byteArrayOf(1, 1))
+        Log.d("MainActivity", "result: ${result.contentToString()}")
+
         setContent {
             AndroidsignkneeTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
@@ -30,6 +36,11 @@ class MainActivity : ComponentActivity() {
                     )
                 }
             }
+        }
+
+        lifecycleScope.launch {
+            val response = testHttpRequest()
+            Log.d("MainActivity", "response: $response")
         }
     }
 }

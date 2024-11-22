@@ -30,6 +30,13 @@ kotlin {
                 // optIn("kotlin.experimental.ExperimentalNativeApi")
                 // optIn("kotlinx.cinterop.ExperimentalForeignApi")
             }
+            dependencies {
+                implementation(libs.kotlinx.io.core)
+                implementation(libs.ktor.io)
+                implementation(libs.ktor.utils)
+                implementation(libs.ktor.client.content.negotiation)
+                implementation(libs.ktor.client.cio)
+            }
         }
     }
     jvmToolchain(17)
