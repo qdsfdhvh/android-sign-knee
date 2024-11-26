@@ -11,12 +11,9 @@ import io.deepmedia.tools.knee.runtime.getObjectClass
 import io.deepmedia.tools.knee.runtime.getObjectField
 import io.deepmedia.tools.knee.runtime.getStringUTFChars
 import io.deepmedia.tools.knee.runtime.newStringUTF
-import io.ktor.client.HttpClient
-import io.ktor.client.engine.cio.CIO
-import io.ktor.client.request.get
-import io.ktor.client.statement.bodyAsText
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.toKString
+import kotlinx.coroutines.suspendCancellableCoroutine
 import platform.android.jclass
 import platform.android.jobject
 import platform.android.jstring
@@ -93,10 +90,21 @@ fun getTestBytes(array: ByteArray): ByteArray {
     return array + byteArrayOf(1, 2, 3, 4, 5)
 }
 
-// FIXME: not support TLS
 @Knee
 suspend fun testHttpRequest(): String {
-    val client = HttpClient(CIO) {
+    // https://f.m.suning.com/api/ct.do
+    return suspendCancellableCoroutine { cont ->
+        val kurl = KUrl()
+        kurl.fetch("https://wanandroid.com/harmony/index/json", null, {
+            if (cont.isActive) {
+                cont.resume(it) { cause, _, _ ->
+                    // logd("cancel")
+                    // kurl.close()
+                }
+            }
+        },  null)
     }
-    return client.get("http://f.m.suning.com/api/ct.do").bodyAsText()
+    // val client = HttpClient(CIO) {
+    // }
+    // return client.get("http://f.m.suning.com/api/ct.do").bodyAsText()
 }

@@ -7,7 +7,26 @@ plugins {
 
 kotlin {
     androidTarget()
-    androidNativeArm64()
+    androidNativeArm64 {
+        val curlDir = rootProject.layout.buildDirectory.dir("android/curl/install/arm64").get().asFile
+        val opensslDir = rootProject.layout.buildDirectory.dir("android/openssl/install/arm64").get().asFile
+        val zlibDir = rootProject.layout.buildDirectory.dir("android/zlib/install/arm64").get().asFile
+
+        compilations["main"].apply {
+            cinterops {
+                create("libcurl") {
+                    defFile("src/nativeInterop/cinterop/libcurl.def")
+                    includeDirs(curlDir.resolve("include"))
+                }
+            }
+        }
+
+        binaries.all {
+            linkerOpts("-L${curlDir.resolve("lib").absolutePath}", "-lcurl")
+            linkerOpts("-L${opensslDir.resolve("lib").absolutePath}", "-lssl", "-lcrypto")
+            linkerOpts("-L${zlibDir.resolve("lib").absolutePath}", "-lz")
+        }
+    }
 
     applyDefaultHierarchyTemplate()
     sourceSets {
