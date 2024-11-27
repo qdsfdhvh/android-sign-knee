@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.jetbrains.kotlin.multiplatform)
-    // alias(libs.plugins.android.kotlin.multiplatform.library)
     alias(libs.plugins.android.library)
     id("io.deepmedia.tools.knee") version "1.2.0"
 }
@@ -66,6 +65,7 @@ android {
     defaultConfig {
         compileSdk = 35
         minSdk = 26
+        consumerProguardFiles("consumer-rules.pro")
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
