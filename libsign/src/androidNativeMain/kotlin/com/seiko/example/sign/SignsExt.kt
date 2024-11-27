@@ -20,8 +20,8 @@ import platform.android.jstring
 import kotlin.experimental.ExperimentalNativeApi
 
 @OptIn(ExperimentalForeignApi::class, ExperimentalNativeApi::class)
-@CName(externName = "Java_com_seiko_example_sign_Signs_nativeGetSignatureSha1")
-fun nativeGetSignatureSha1(
+@CName(externName = "Java_com_seiko_example_sign_Signs_getSignatureSha1")
+fun getSignatureSha1(
     env: JniEnvironment,
     `_`: jclass,
     contextObject: jobject,
