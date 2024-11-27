@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -7,24 +9,48 @@ plugins {
 android {
     namespace = "com.seiko.example.sign"
     compileSdk = 35
-
     defaultConfig {
         applicationId = "com.seiko.example.sign"
         minSdk = 26
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-
+    val signFile = project.file("debug.properties")
+    val hasSigningProps = signFile.exists()
+    signingConfigs {
+        if (hasSigningProps) {
+            create("debugSigning") {
+                val signingProp = Properties()
+                signingProp.load(signFile.inputStream())
+                storeFile = project.file(signingProp.getProperty("storeFile"))
+                storePassword = signingProp.getProperty("storePassword")
+                keyAlias = signingProp.getProperty("keyAlias")
+                keyPassword = signingProp.getProperty("keyPassword")
+                enableV2Signing = true
+                enableV3Signing = true
+                enableV4Signing = true
+            }
+        }
+    }
     buildTypes {
+        debug {
+            if (hasSigningProps) {
+                signingConfig = signingConfigs.getByName("debugSigning")
+            }
+        }
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+            isDebuggable = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            if (hasSigningProps) {
+                signingConfig = signingConfigs.getByName("debugSigning")
+            }
         }
     }
     compileOptions {
