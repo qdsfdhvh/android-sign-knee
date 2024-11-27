@@ -20,9 +20,9 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        Signs.initLibrary()
-        val sha1 = Signs.getSignatureSha1(applicationContext)
-        Log.d("MainActivity", "sha1: $sha1")
+        Signs.initLibrary(applicationContext)
+
+        Log.d("MainActivity", "isSignatureValid: ${isSignatureValid()}")
 
         val result = getTestBytes(byteArrayOf(1, 1))
         Log.d("MainActivity", "result: ${result.contentToString()}")

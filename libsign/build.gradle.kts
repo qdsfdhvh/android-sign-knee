@@ -29,6 +29,12 @@ kotlin {
 
     applyDefaultHierarchyTemplate()
     sourceSets {
+        all {
+            languageSettings {
+                optIn("kotlin.experimental.ExperimentalNativeApi")
+                optIn("kotlinx.cinterop.ExperimentalForeignApi")
+            }
+        }
         commonMain {
             dependencies {
                 implementation(libs.kotlin.stdlib)
@@ -44,10 +50,6 @@ kotlin {
             }
         }
         androidNativeMain {
-            languageSettings {
-                // optIn("kotlin.experimental.ExperimentalNativeApi")
-                // optIn("kotlinx.cinterop.ExperimentalForeignApi")
-            }
             dependencies {
                 implementation(libs.kotlinx.io.core)
                 implementation(libs.ktor.io)
