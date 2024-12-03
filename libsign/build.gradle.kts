@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.multiplatform)
     alias(libs.plugins.android.library)
     id("io.deepmedia.tools.knee") version "1.2.0"
+    id("com.github.gmazzo.buildconfig") version "5.5.1"
 }
 
 kotlin {
@@ -81,3 +82,16 @@ knee {
     verboseRuntime.set(true)
     verboseSources.set(true)
 }
+
+buildConfig {
+    packageName = "com.seiko.example.sign"
+    sourceSets.named("androidNativeMain") {
+        useKotlinOutput {
+            topLevelConstants = true
+        }
+
+        buildConfigField("targetAppSignSha256", "84f0f24a97d21adf8460ae597fbfcedb8b6225af413d54c24fd78c5566ee0271".toCharArray())
+        buildConfigField("DEBUG", true) // TODO: auto detect debug/release build environment
+    }
+}
+

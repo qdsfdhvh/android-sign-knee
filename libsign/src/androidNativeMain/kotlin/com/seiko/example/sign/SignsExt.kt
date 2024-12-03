@@ -26,8 +26,6 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import platform.android.jbyteArray
 import platform.android.jobject
 
-private val targetAppSignSha256 = "84f0f24a97d21adf8460ae597fbfcedb8b6225af413d54c24fd78c5566ee0271".toCharArray()
-
 private val hexCodes = charArrayOf(
     '0', '1', '2', '3', '4', '5', '6', '7',
     '8', '9', 'a', 'b', 'c', 'd', 'e', 'f',
